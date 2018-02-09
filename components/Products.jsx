@@ -5,6 +5,7 @@ class Products extends React.Component{
     constructor(props) {
         super(props);
     }
+
     render(){
         return(
             <div>
@@ -13,7 +14,8 @@ class Products extends React.Component{
                 cartItems={this.props.cartItems} 
                 addToCartProp={this.props.addToCartProp} 
                 removeFromCartProp={this.props.removeFromCartProp}
-                removeOneFromCartProp={this.props.removeOneFromCartProp}/>)
+                removeOneFromCartProp={this.props.removeOneFromCartProp}
+                />)
             }
             </div>
         );

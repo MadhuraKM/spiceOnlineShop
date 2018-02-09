@@ -5,37 +5,26 @@ class Product extends React.Component{
     constructor(props) {
         super(props);
 
-        let cartItem = this.props.cartItems.find((cartItem) => { 
-            return cartItem.id == this.props.productDetails.id;                
-        });
-
-        this.state={
-            itemsAdded : cartItem ? Number(cartItem.quantity) : 0
-        }
-
         this.addProduct = this.addProduct.bind(this);
         this.removeProduct = this.removeProduct.bind(this);
     }
 
     addProduct(e) {
-        let itemsTotal = Number(this.state.itemsAdded) + 1;
-        this.setState( 
-            {itemsAdded : itemsTotal}
-        );
-        
         this.props.addToCartProp(e);
     }
 
-    removeProduct(e) {
-        let itemsReduceTotal = Number(this.state.itemsAdded) - 1;
-        this.setState( 
-            {itemsAdded : itemsReduceTotal}
-        );
-        
+    removeProduct(e) {        
         this.props.removeOneFromCartProp(e);
     }
-
+  
     render(){
+        var itemsAdded = 0;
+        this.props.cartItems.map((item, i) => {
+            if(item.name === this.props.productDetails.name){
+                itemsAdded = item.quantity;
+            }
+        });
+
         return(
             <div className='product'>
                 <img src={this.props.productDetails.image} />
@@ -45,10 +34,10 @@ class Product extends React.Component{
                 <div className='price'>Rs. {this.props.productDetails.price}</div>
 
                 <button value={this.props.productDetails.id} className='productBtn' 
-                onClick={this.addProduct} hidden={this.state.itemsAdded}>Add To Cart</button>
-                <div hidden={!this.state.itemsAdded}>
+                onClick={this.addProduct} hidden={itemsAdded}>Add To Cart</button>
+                <div hidden={!itemsAdded}>
                     <button value={this.props.productDetails.id} onClick={this.removeProduct}>-</button>
-                    <button> {this.state.itemsAdded} in Cart</button>
+                    <button> {itemsAdded} in Cart</button>
                     <button value={this.props.productDetails.id} onClick={this.addProduct}>+</button>
                 </div>
             </div>

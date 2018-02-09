@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from 'prop-types';
 //import App from './components/App.jsx';
 import data from './products.json';
 import Header from './components/Header.jsx';
@@ -27,6 +28,10 @@ class App extends React.Component {
         this.removeOneFromCart = this.removeOneFromCart.bind(this);
     }
 
+    getChildContext() {
+        return {cartItems: this.state.cartItems};
+    }
+    
     addToCart(event) {
 
         let itemtoAdd = this.state.products.find((product) => { 
@@ -71,6 +76,8 @@ class App extends React.Component {
         let index = this.state.cartItems.indexOf(cartItem);
         this.state.cartItems.splice(index, 1);
         this.setState({ cartItems: [...this.state.cartItems] });
+        console.log("Main productRemoveAlert : ", cartItem);
+        this.refs.content.productRemoveAlert(cartItem);
     }
 
     removeOneFromCart(e) {
@@ -118,5 +125,9 @@ class App extends React.Component {
      }
 
  }
+
+ App.childContextTypes = {
+    cartItems: PropTypes.object
+ };
 
 ReactDOM.render(<App />, document.getElementById('app'));
